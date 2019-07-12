@@ -4,7 +4,7 @@ import arcpy
 import os
 
 
-def splitByExisting(sewerLayer, sewerShape, depthSuffix, nodepthSuffix, **kwarg):
+def splitByExisting(sewerLayer, sewerShape, depthSuffix, nodepthSuffix, , **kwarg):
     noDepthsCol = [220,20,20,100]
     depthsCol = [40,200,40,100]
 
