@@ -1,0 +1,25 @@
+Plan:
+
+-----------------------
+Overall
+-----------------------
+
+ - Package the whole process into a self-contained, exportable ArcGIS model
+ 
+
+-----------------------
+splitByDepthExisting
+-----------------------
+
+ - Rename to "splitByDepth"
+ - Ability to take in shape files OR layers
+     - If shape files are passed in it will only take take the "NWGIS.SEWER" only so
+       the "NWGIS.SEWER_NO" shape file will not be loaded, and since it is needed later
+       in "denseLabels.py", there will have to be an option to load it in by shape there
+
+-----------------------
+denseLabels
+-----------------------
+
+ - Rename to "generatePoints" since labels are generated later
+ - Add a parameter to decide how many metres along the pipe the points are generated

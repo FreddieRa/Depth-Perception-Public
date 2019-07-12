@@ -3,7 +3,20 @@
 import arcpy
 
 
-def splitByExisting(sewerLayer, depthSuffix, nodepthSuffix, noDepthsCol = [220,20,20,100], depthsCol = [40,200,40,100], **kwarg):
+def splitByExisting(sewerLayer = "", sewerShape = "", depthSuffix, nodepthSuffix, , **kwarg):
+    noDepthsCol = [220,20,20,100]
+    depthsCol = [40,200,40,100]
+
+    if !(sewerLayer or sewerShape):
+        arcpy.AddMessage("Error: Either a layer or shape file are required")
+        return None
+
+    if(sewerShape):
+        sewerLayer = "NWGIS.SEWER"
+        arcpy.MakeFeatureLayer_management(sewerShape, "NWGIS.SEWER")
+        addLayerToMap(nwgisMap, "NWGIS.SEWER")
+
+
 
     arcpy.AddMessage('sewerLayer: ' + sewerLayer)
     nodepthsLayer = sewerLayer + nodepthSuffix
