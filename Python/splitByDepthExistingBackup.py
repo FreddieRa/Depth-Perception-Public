@@ -8,7 +8,7 @@ def splitByExisting(sewerLayer, sewerShape, depthSuffix, nodepthSuffix, , **kwar
     noDepthsCol = [220,20,20,100]
     depthsCol = [40,200,40,100]
 
-    if !(sewerLayer or sewerShape):
+    if not(sewerLayer or sewerShape):
         arcpy.AddMessage("Error: Either a layer or shape file are required")
         return None
 
