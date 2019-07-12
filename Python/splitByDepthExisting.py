@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import arcpy
+import os
 
 
 def splitByExisting(sewerLayer = "", sewerShape = "", depthSuffix, nodepthSuffix, , **kwarg):
@@ -15,7 +16,6 @@ def splitByExisting(sewerLayer = "", sewerShape = "", depthSuffix, nodepthSuffix
         sewerLayer = "NWGIS.SEWER"
         arcpy.MakeFeatureLayer_management(sewerShape, "NWGIS.SEWER")
         addLayerToMap(nwgisMap, "NWGIS.SEWER")
-
 
 
     arcpy.AddMessage('sewerLayer: ' + sewerLayer)
@@ -63,7 +63,10 @@ def colourLayer(layerName, colour):
 
 
 def layerFileName(layerName):
-    return './Data/Generated/' + layerName + '.lyrx'
+    dirName = "Data/Generated/"
+    if not os.path.exists(dirName):
+        os.mkdirs(dirName)
+    return dirName + layerName + '.lyrx'
 
 
 def addLayerToMap(mapName, layerName):

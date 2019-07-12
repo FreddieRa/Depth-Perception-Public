@@ -344,6 +344,9 @@ def mainToCSV(frame, nodes):
     points = compute_elevation_point(points)
 
     # Dump
+    dirName = "Data/Generated/"
+    if not os.path.exists(dirName):
+        os.mkdirs(dirName)
     points.to_csv('Data/Generated/interpolated_points.csv', index=False)
 
     # with open(result_path + '/query.json', 'w') as f:
@@ -379,6 +382,7 @@ def generate_results(sewerLayer, sewerNodesLayer, elevationData, result, **kwarg
 
     mainToCSV(frame, nodes)
 
+    # Path ensured from mainToCSV
     lyr = csvToLayer('Data/Generated/interpolated_points.csv', result)
     getDepthFromTif(elevationData, result)
 
