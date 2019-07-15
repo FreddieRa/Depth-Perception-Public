@@ -8,22 +8,20 @@ def splitByExisting(sewerLayer, sewerShape, depthSuffix, nodepthSuffix, **kwarg)
     noDepthsCol = [220,20,20,100]
     depthsCol = [40,200,40,100]
 
+    aprx = arcpy.mp.ArcGISProject("CURRENT"); # 0.
+    nwgisMap = aprx.listMaps()[0];
+
     if not(sewerLayer or sewerShape):
-        arcpy.AddMessage("Error: Either a layer or shape file are required")
+        arcpy.AddError("Error: Either a layer or shape file are required")
         return None
 
     if(sewerShape):
-        sewerLayer = "NWGIS.SEWER"
-        arcpy.MakeFeatureLayer_management(sewerShape, "NWGIS.SEWER")
-        addLayerToMap(nwgisMap, "NWGIS.SEWER")
-
+        sewerLayer = nwgisMap.addDataFromPath(sewerShape)
+        sewerLayer = sewerLayer.name
 
     arcpy.AddMessage('sewerLayer: ' + sewerLayer)
     nodepthsLayer = sewerLayer + nodepthSuffix
     depthsLayer = sewerLayer + depthSuffix
-
-    aprx = arcpy.mp.ArcGISProject("CURRENT"); # 0.
-    nwgisMap = aprx.listMaps()[0];
 
     # If layers are already there, delete them first
     tryRemoveLayer(nwgisMap, nodepthsLayer)
