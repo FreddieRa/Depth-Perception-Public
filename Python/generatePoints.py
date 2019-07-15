@@ -344,9 +344,6 @@ def mainToCSV(frame, nodes):
     points = compute_elevation_point(points)
 
     # Dump
-    dirName = "Data/Generated/"
-    if not os.path.exists(dirName):
-        os.mkdirs(dirName)
     points.to_csv('Data/Generated/interpolated_points.csv', index=False)
 
     # with open(result_path + '/query.json', 'w') as f:
@@ -372,7 +369,26 @@ def getDepthFromTif(tifPath, table):
             cursor.updateRow(row)
 
 
-def generate_results(sewerLayer, sewerNodesLayer, elevationData, result, **kwarg):
+def generate_results(sewerLayer, sewerShape, sewerNodesLayer, sewerNodesShape, elevationData, result, **kwarg):
+    if not(sewerLayer or sewerShape):
+        arcpy.AddError("Error: Either a sewer layer or shape file are required")
+        return None
+    
+    if not(sewerNodesLayer or sewerNodesShape):
+        arcpy.AddError("Error: Either a sewer nodes layer or shape file are required")
+        return None
+
+    aprx = arcpy.mp.ArcGISProject("CURRENT"); # 0.
+    nwgisMap = aprx.listMaps()[0];
+
+    if (sewerShape):
+        sewerLayer = nwgisMap.addDataFromPath(sewerShape)
+        sewerLayer = sewerLayer.name
+    
+    if (sewerNodesShape):
+        sewerNodesLayer = nwgisMap.addDataFromPath(sewerNodesShape)
+        sewerNodesLayer = sewerNodesLayer.name
+
     exploded = multiLS_to_LS(table=sewerLayer)
 
     frame, nodes = load_data(
@@ -382,7 +398,6 @@ def generate_results(sewerLayer, sewerNodesLayer, elevationData, result, **kwarg
 
     mainToCSV(frame, nodes)
 
-    # Path ensured from mainToCSV
     lyr = csvToLayer('Data/Generated/interpolated_points.csv', result)
     getDepthFromTif(elevationData, result)
 
@@ -394,3 +409,4 @@ def main():
 
 
 main()
+
