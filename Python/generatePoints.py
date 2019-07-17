@@ -209,7 +209,7 @@ def compute_length(frame):
     return frame
 
 
-def interpolate(frame, precision_meter=5):
+def interpolate(frame, precision_meter):
     """
     Interpolate points along the pipe
     """
@@ -298,7 +298,7 @@ def compute_elevation_point(points):
     return points
 
 
-def mainToCSV(frame, nodes):
+def mainToCSV(frame, nodes, precision_meter):
     arcpy.AddMessage('mainToCSV()')
 
     # clean coordinates
@@ -338,7 +338,7 @@ def mainToCSV(frame, nodes):
     compute_length(frame)
 
     # interpolate points
-    points = interpolate(frame)
+    points = interpolate(frame, precision_meter)
 
     # Compute points' elevations
     points = compute_elevation_point(points)
@@ -369,7 +369,7 @@ def getDepthFromTif(tifPath, table):
             cursor.updateRow(row)
 
 
-def generate_results(sewerLayer, sewerShape, sewerNodesLayer, sewerNodesShape, elevationData, result, **kwarg):
+def generate_results(sewerLayer, sewerShape, sewerNodesLayer, sewerNodesShape, elevationData, precision_meter, result, **kwarg):
     if not(sewerLayer or sewerShape):
         arcpy.AddError("Error: Either a sewer layer or shape file are required")
         return None
@@ -396,7 +396,7 @@ def generate_results(sewerLayer, sewerShape, sewerNodesLayer, sewerNodesShape, e
         node_table=sewerNodesLayer
     )
 
-    mainToCSV(frame, nodes)
+    mainToCSV(frame, nodes, precision_meter)
 
     lyr = csvToLayer('Data/Generated/interpolated_points.csv', result)
     getDepthFromTif(elevationData, result)

@@ -4,6 +4,7 @@ Plan:
 Overall
 -----------------------
 
+ - Convert to a Python toolbox
  - Package the whole process into a self-contained, exportable ArcGIS model
  - Add code to provide file structure if it does not exist
 
