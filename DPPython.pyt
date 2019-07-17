@@ -642,3 +642,54 @@ class generatePoints(object):
         arcpy.AddMessage('Arg: ' + str(arg))
         self.main(**arg)
         return
+
+
+
+
+
+class genericTool(object):
+    def __init__(self):
+        """Define the tool (tool name is the name of the class)."""
+        self.label = "Generate Points"
+        self.description = ""
+        self.canRunInBackground = False
+
+    def getParameterInfo(self):
+        """Define parameter definitions"""
+        param = arcpy.Parameter(
+            displayName="Param",
+            name="param",
+            datatype="GPFeatureLayer",
+            parameterType="Required",
+            direction="Input")
+        param.value = "DEFAULT"
+
+
+        params = [param]
+        return params
+
+    def isLicensed(self):
+        """Set whether tool is licensed to execute."""
+        return True
+
+    def updateParameters(self, parameters):
+        """Modify the values and properties of parameters before internal
+        validation is performed.  This method is called whenever a parameter
+        has been changed."""
+        return
+
+    def updateMessages(self, parameters):
+        """Modify the messages created by internal validation for each tool
+        parameter.  This method is called after internal validation."""
+        return
+
+    def main(self, otherParamters):
+        """Put the main code in here"""
+        return
+    
+    def execute(self, parameters, messages):
+        """Decoding the arguments into a dictionary to be passed into main()"""
+        arg = dict([(p.name, p.valueAsText) for p in parameters])
+        arcpy.AddMessage('Arg: ' + str(arg))
+        self.main(**arg)
+        return
