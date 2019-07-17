@@ -4,7 +4,7 @@ import arcpy
 import os
 
 
-def splitByExisting(sewerLayer, sewerShape, depthSuffix, nodepthSuffix, **kwarg):
+def splitByData(sewerLayer, sewerShape, depthSuffix, nodepthSuffix, **kwarg):
     noDepthsCol = [220,20,20,100]
     depthsCol = [40,200,40,100]
 
@@ -81,7 +81,7 @@ def suffixify(layerName, suffix):
 def main():
     arg = dict([(p.name, p.valueAsText) for p in arcpy.GetParameterInfo()])
     arcpy.AddMessage('Arg: ' + str(arg))
-    splitByExisting(**arg)
+    splitByData(**arg)
 
 
 main()
